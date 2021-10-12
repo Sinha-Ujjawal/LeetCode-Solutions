@@ -27,23 +27,18 @@ class Solution:
 
             while lb <= ub:
                 m = (lb + ub) >> 1
-                if nums[lb] > nums[m] and nums[m] < nums[ub]:
-                    ub = m - 1
-                elif nums[lb] < nums[m] and nums[m] > nums[ub]:
+                if nums[0] <= nums[m]:
                     lb = m + 1
-                elif nums[lb] < nums[m] < nums[ub]:
-                    ub = m - 1
                 else:
-                    lb = m + 1
+                    ub = m - 1
 
-            for k in range(-3, 4, 1):
-                z = max(0, min(m + k, len(nums) - 2))
-                i = binary_search(nums, target, 0, z, default=-2)
+            if 0 < lb < len(nums):
+                i = binary_search(nums, target, 0, lb - 1, default=-2)
                 if i == -2:
-                    i = binary_search(nums, target, z + 1, default=-2)
-                if i != -2:
-                    return i
-        return -1
+                    i = binary_search(nums, target, lb, default=-2)
+            else:
+                i = binary_search(nums, target, 0, default=-2)
+            return max(i, -1)
 
 
 if __name__ == "__main__":
